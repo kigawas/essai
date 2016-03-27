@@ -63,3 +63,14 @@ target/
 
 #virtualenv
 venv/
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# SQLite databases
+*.sqlite
