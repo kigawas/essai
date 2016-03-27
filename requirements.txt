@@ -36,3 +36,6 @@ sklearn==0.0
 traitlets==4.2.1
 visitor==0.1.2
 wsgiref==0.1.2
+gunicorn==18.0
+psycopg2==2.5.1
+nltk==3.2
