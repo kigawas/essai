@@ -1,10 +1,9 @@
-from flask import render_template, session, redirect, url_for, current_app, flash
+from flask import render_template, session, redirect, url_for, current_app
 from .. import db
 from ..models import User
 from . import main
-from .forms import NameForm, EssayForm
-from datetime import datetime
-from ..scoring import get_score
+from .forms import NameForm
+
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
@@ -22,14 +21,3 @@ def index():
     return render_template('index.html',
                            form=form, name=session.get('name'),
                            known=session.get('known', False))
-
-@main.route('/essay', methods=['GET', 'POST'])
-def essay():
-    form = EssayForm()
-    if form.validate_on_submit():
-        text = form.essay.data
-        add_time = datetime.now()
-        score = get_score(text)
-        flash(score)
-        #return redirect(url_for('.index'))
-    return render_template('essay.html',form=form)
