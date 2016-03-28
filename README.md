@@ -4,8 +4,9 @@ Essay scoring system web application.
 
 ##Install
 
-The web framework is `Flask`, and the scoring module requires `scikit-learn` and `nltk` (and download its punkt tokenizer).
-And you may also install `virtualenv` by using `apt-get install python-virtualenv` on Ubuntu.
+The web framework is `Flask`, and the scoring module requires `scikit-learn` and `nltk` (and don't forget to download its punkt tokenizer).
+
+And you may also need to install `virtualenv` by using `apt-get install python-virtualenv` on Ubuntu beforehand.
 
 ```
 virtualenv venv
