@@ -19,6 +19,6 @@ def index():
         essay_tuple = Essay(text=text, time=time, score=score, spell_errors=spell_e, grammar_errors=gram_e, coherence=coh)
         db.session.add(essay_tuple)
         flash(spell_e)
-        flash(json.loads(gram_e))
+        flash(score)
         #return redirect(url_for('.index'))
     return render_template('essay.html',form=form)

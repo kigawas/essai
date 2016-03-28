@@ -6,8 +6,6 @@ import json, string, os
 import cPickle as pickle
 import numpy as np
 
-
-
 class LexicalFeature:
     def __init__(self, essay):
         self.essay = essay
