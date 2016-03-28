@@ -44,18 +44,18 @@ class LexicalFeature:
                 #print word
                 err_count += 1
         return err_count
-        
+
 
 class EssayScorer(object):
     d = enchant.Dict('en-US')
     t = language_check.LanguageTool('en-US')
     t.disable_spellchecking()
-    
+
     basedir = os.path.abspath(os.path.dirname(__file__))
     tfidf = pickle.load(open(basedir+'/pickles/tfidf'))
     scaler = pickle.load(open(basedir+'/pickles/scaler'))
     clf = pickle.load(open(basedir+'/pickles/clf'))
-    
+
     def __init__(self, essay):
         self.essay = essay
         self.sents = [word_tokenize(sent) for sent in sent_tokenize(essay)]
@@ -64,31 +64,31 @@ class EssayScorer(object):
         self.spell_errors = self.__spell_check()
         self.grammar_errors = self.__grammar_check()
         self.coherence = self.__coherence()
-    
+
     def __score(self):
         lf = [LexicalFeature(self.essay).get_all_features()]
-        X = np.concatenate((EssayScorer.tfidf.transform([self.essay]), 
+        X = np.concatenate((EssayScorer.tfidf.transform([self.essay]),
                             EssayScorer.scaler.transform(lf)),
                             axis = 1)
         return EssayScorer.clf.predict(X)[0]
-    
+
     def __spell_check(self):
         res = {}
         for w in self.words:
             if EssayScorer.d.check(w) is False:
                 res[w] = EssayScorer.d.suggest(w)[:2]
         return json.dumps(res)
-    
+
     def __grammar_check(self):
         res = []
         errors = EssayScorer.t.check(self.essay)
         for e in errors:
             res.append(unicode(e))
         return json.dumps(res)
-    
+
     def __coherence(self):
         return ""
-        
+
 
 if __name__ == "__main__":
     text = 'A sentence witj a error in the Hitchhiker\'s Guide tot he Galaxy'
