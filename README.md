@@ -26,3 +26,9 @@ sudo apt-get install python-scipy
 sudo apt-get build-dep python-scipy
 pip install scipy
 ```
+
+## Features
+
+- A holistic score from 1 to 6 (greater means better)
+- Spell checking and grammar checking
+- Coherence feedbacks
