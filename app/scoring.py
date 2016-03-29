@@ -6,6 +6,7 @@ import json, string, os
 import cPickle as pickle
 import numpy as np
 
+
 class LexicalFeature:
     def __init__(self, essay):
         self.essay = essay
@@ -14,14 +15,15 @@ class LexicalFeature:
         for sent in self.sents:
             self.words.extend(word_tokenize(sent))
         self.pos = []
-        self.type_token_ratio = len(set(self.words))/len(self.words)
+        self.type_token_ratio = len(set(self.words)) / len(self.words)
         self.sent_counts = len(self.sents)
-        self.char_counts = sum(map(lambda x:len(x), self.sents))
+        self.char_counts = sum(map(lambda x: len(x), self.sents))
         self.word_counts = len(self.words)
-        self.long_word_counts = len(filter(lambda x:len(x)>=5, self.words))
-        self.awl = sum(map(lambda x:len(x), self.words))/float(self.word_counts)
+        self.long_word_counts = len(filter(lambda x: len(x) >= 5, self.words))
+        self.awl = sum(map(lambda x: len(x), self.words)) / float(
+            self.word_counts)
         self.punctuation_counts = self.__punc_count()
-        self.err_count = self.__spell_errors()/float(self.sent_counts)
+        self.err_count = self.__spell_errors() / float(self.sent_counts)
 
     def get_all_features(self):
         return self.type_token_ratio, self.sent_counts, \
@@ -30,7 +32,7 @@ class LexicalFeature:
                 self.punctuation_counts, self.err_count
 
     def __punc_count(self):
-        return len(filter(lambda x:x in string.punctuation, self.words))
+        return len(filter(lambda x: x in string.punctuation, self.words))
 
     def __spell_errors(self):
         try:
@@ -39,7 +41,7 @@ class LexicalFeature:
             return 0
         d = enchant.Dict('en-US')
         err_count = 0
-        for word in filter(lambda x:x.isalnum() and x.islower(), self.words):
+        for word in filter(lambda x: x.isalnum() and x.islower(), self.words):
             if d.check(word) is False:
                 #print word
                 err_count += 1
@@ -52,14 +54,14 @@ class EssayScorer(object):
     t.disable_spellchecking()
 
     basedir = os.path.abspath(os.path.dirname(__file__))
-    tfidf = pickle.load(open(basedir+'/pickles/tfidf'))
-    scaler = pickle.load(open(basedir+'/pickles/scaler'))
-    clf = pickle.load(open(basedir+'/pickles/clf'))
+    tfidf = pickle.load(open(basedir + '/pickles/tfidf'))
+    scaler = pickle.load(open(basedir + '/pickles/scaler'))
+    clf = pickle.load(open(basedir + '/pickles/clf'))
 
     def __init__(self, essay):
         self.essay = essay
         self.sents = [word_tokenize(sent) for sent in sent_tokenize(essay)]
-        self.words = filter(lambda x:x.isalnum(), sum(self.sents, []))
+        self.words = filter(lambda x: x.isalnum(), sum(self.sents, []))
         self.score = self.__score()
         self.spell_errors = self.__spell_check()
         self.grammar_errors = self.__grammar_check()
@@ -67,9 +69,10 @@ class EssayScorer(object):
 
     def __score(self):
         lf = [LexicalFeature(self.essay).get_all_features()]
-        X = np.concatenate((EssayScorer.tfidf.transform([self.essay]),
-                            EssayScorer.scaler.transform(lf)),
-                            axis = 1)
+        X = np.concatenate(
+            (EssayScorer.tfidf.transform([self.essay]),
+             EssayScorer.scaler.transform(lf)),
+            axis=1)
         return EssayScorer.clf.predict(X)[0]
 
     def __spell_check(self):

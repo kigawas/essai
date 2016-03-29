@@ -12,5 +12,5 @@ class Essay(db.Model):
     coherence = db.Column(db.Text)
 
     def __repr__(self):
-        return '<Essay {0}>: {1}. Created at:{2}'.format(self.text, self.score, self.time)
-
+        return '<Essay {0}>: {1}. Created at:{2}'.format(self.text, self.score,
+                                                         self.time)

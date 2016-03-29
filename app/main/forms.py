@@ -4,5 +4,6 @@ from wtforms.validators import Required, Length
 
 
 class EssayForm(Form):
-    essay = TextAreaField('Please input your essay.', validators=[Required(), Length(min=2)])
+    essay = TextAreaField('Please input your essay.',
+                          validators=[Required(), Length(min=2)])
     submit = SubmitField('Submit')
