@@ -6,6 +6,7 @@
 {{ super() }}
 <link rel="shortcut icon" href="{{ url_for('static', filename='icon.png') }}" type="image/x-icon">
 <link rel="icon" href="{{ url_for('static', filename='icon.png') }}" type="image/x-icon">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/flat-ui/2.2.2/css/flat-ui.min.css">
 {% endblock %}
 
 {% block navbar %}
@@ -23,6 +24,7 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                <li><a href="{{ url_for('main.about') }}">About</a></li>
             </ul>
         </div>
     </div>

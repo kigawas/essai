@@ -27,4 +27,8 @@ def index():
         flash(spell_e)
         flash(score)
         #return redirect(url_for('.index'))
-    return render_template('essay.html', form=form)
+    return render_template('index.html', form=form)
+
+@main.route('/about', methods=['GET'])
+def about():
+    return render_template('about.html')
