@@ -32,3 +32,7 @@ def index():
 @main.route('/about', methods=['GET'])
 def about():
     return render_template('about.html')
+
+@main.route('/result', methods=['GET', 'POST'])
+def result():
+    return render_template('result.html', text='t', result='r')
