@@ -6,7 +6,7 @@ Essay scoring system web application.
 
 The web framework is `Flask`, and the scoring module requires `scikit-learn` and `nltk` (and don't forget to download its `punkt` tokenizer).
 
-### Install prerequisite
+### Install prerequisites
 
 You may need to install libraries by using `apt-get install`.
 
@@ -26,7 +26,7 @@ python manage.py runserver -h $IP -p $PORT # or gunicorn manage:app if you want 
 
 ### Run in the virtual environment
 
-** Only do this if you have enough memory to build `numpy`, `scipy` and `scikit-learn` on your own. **
+**Only do this if you have enough memory to build `numpy`, `scipy` and `scikit-learn` on your own.**
 
 ```
 virtualenv venv
