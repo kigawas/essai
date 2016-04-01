@@ -2,7 +2,7 @@
 
 {% block html_attribs %}lang="en"{% endblock %}
 
-{% block title %}Essai{% endblock %}
+{% block title %}Essai - Score your English essay.{% endblock %}
 
 {% block head %}
 {{ super() }}
@@ -35,7 +35,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container" style="padding-bottom:120px;">
 
   {% for message in get_flashed_messages() %}
   <div class="alert alert-success">
@@ -52,7 +52,8 @@
     <div class="row">
       <div class="col-xs-8">
         <h6>
-          <small>This application is powered by Flask and Flat UI.</small>
+          <small>This application is powered by <a href="http://flask.pocoo.org/">Flask</a>
+          and <a href="http://designmodo.github.io/Flat-UI/">Flat UI</a>.</small>
         </h6>
       </div>
       <div class="col-xs-4">
