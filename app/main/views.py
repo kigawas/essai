@@ -20,19 +20,16 @@ def index():
         essay_tuple = Essay(text=text,
                             time=time,
                             score=score,
-                            spell_errors=spell_e,
-                            grammar_errors=gram_e,
-                            coherence=coh)
+                            spell_errors=json.dumps(spell_e),
+                            grammar_errors=json.dumps(gram_e),
+                            coherence=json.dumps(coh))
         db.session.add(essay_tuple)
-        flash(spell_e)
-        flash(score)
-        #return redirect(url_for('.index'))
+
+        flash("Your essay is scored. You got point {} of 6.".format(score))
+        return render_template('result.html', text=text, es=es, zip=zip)
     return render_template('index.html', form=form)
+
 
 @main.route('/about', methods=['GET'])
 def about():
     return render_template('about.html')
-
-@main.route('/result', methods=['GET', 'POST'])
-def result():
-    return render_template('result.html', text='t', result='r')

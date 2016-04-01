@@ -54,14 +54,17 @@ class EssayScorer(object):
     t.disable_spellchecking()
 
     basedir = os.path.abspath(os.path.dirname(__file__))
-    tfidf = pickle.load(open(basedir + '/pickles/tfidf'))
-    scaler = pickle.load(open(basedir + '/pickles/scaler'))
-    clf = pickle.load(open(basedir + '/pickles/clf'))
+    tfidf = pickle.load(open(os.path.join(basedir, 'pickles', 'tfidf')))
+    scaler = pickle.load(open(os.path.join(basedir, 'pickles', 'scaler')))
+    clf = pickle.load(open(os.path.join(basedir, 'pickles', 'clf')))
+    no_checking_id = ["WHITESPACE_RULE", "EN_QUOTES"]
 
-    def __init__(self, essay):
+    def __init__(self, essay, ret_json=False):
+        self.ret_json = ret_json
         self.essay = essay
-        self.sents = [word_tokenize(sent) for sent in sent_tokenize(essay)]
-        self.words = filter(lambda x: x.isalnum(), sum(self.sents, []))
+        self.sents = [s.strip() for s in sent_tokenize(essay)]
+        self.sent_words = [word_tokenize(s) for s in self.sents]
+        self.words = [w for w in sum(self.sent_words, []) if w.isalnum()]
         self.score = self.__score()
         self.spell_errors = self.__spell_check()
         self.grammar_errors = self.__grammar_check()
@@ -73,21 +76,26 @@ class EssayScorer(object):
             (EssayScorer.tfidf.transform([self.essay]),
              EssayScorer.scaler.transform(lf)),
             axis=1)
-        return EssayScorer.clf.predict(X)[0]
+        return str(EssayScorer.clf.predict(X)[0])
 
     def __spell_check(self):
         res = {}
-        for w in self.words:
-            if EssayScorer.d.check(w) is False:
-                res[w] = EssayScorer.d.suggest(w)[:2]
-        return json.dumps(res)
+        for i, s in enumerate(self.sent_words):
+            res[i] = []
+            for w in s:
+                if w.isalnum() and EssayScorer.d.check(w) is False:
+                    res[i].append({w: EssayScorer.d.suggest(w)[:2]})
+        return json.dumps(res) if self.ret_json else res
 
     def __grammar_check(self):
-        res = []
-        errors = EssayScorer.t.check(self.essay)
-        for e in errors:
-            res.append(unicode(e))
-        return json.dumps(res)
+        res = {}
+        for i, s in enumerate(self.sents):
+            errors = EssayScorer.t.check(s)
+            res[i] = [e.__dict__
+                      for e in errors
+                      if e.ruleId not in EssayScorer.no_checking_id]
+
+        return json.dumps(res) if self.ret_json else res
 
     def __coherence(self):
         return ""
@@ -95,6 +103,11 @@ class EssayScorer(object):
 
 if __name__ == "__main__":
     text = 'A sentence witj a error in the Hitchhiker\'s Guide tot he Galaxy'
+    text = '''   English is a internationaly                    language which becomes importantly for modern world.
+    '''
+
+    text = "However, perhaps the discussion of man triumphing over nature makes little sense, as an economist once wrote, \"man talks of a battle with Nature, forgetting that if he won the battle, he would find himself on the losing side \"."
+
     e = EssayScorer(text)
     print e.sents
     print e.words

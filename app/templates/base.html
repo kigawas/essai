@@ -1,6 +1,6 @@
 {% extends "bootstrap/base.html" %}
 
-{% block html_attribs %} lang="en"{% endblock %}
+{% block html_attribs %}lang="en"{% endblock %}
 
 {% block title %}Essai{% endblock %}
 
@@ -8,8 +8,8 @@
 {{ super() }}
 <link rel="shortcut icon" href="{{ url_for('static', filename='icon.png') }}" type="image/x-icon">
 <link rel="icon" href="{{ url_for('static', filename='icon.png') }}" type="image/x-icon">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/sticky-footer.css') }}">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/flat-ui/2.2.2/css/flat-ui.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/customize.css') }}">
 {% endblock %}
 
 {% block navbar %}
@@ -36,37 +36,36 @@
 
 {% block content %}
 <div class="container">
-    {% for message in get_flashed_messages() %}
-    <div class="alert alert-warning">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        {{ message }}
-    </div>
-    {% endfor %}
 
-    {% block page_content %}{% endblock %}
+  {% for message in get_flashed_messages() %}
+  <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      {{ message }}
+  </div>
+  {% endfor %}
 
+  {% block page_content %}{% endblock %}
 </div>
 
-
 <footer class="footer" style="background:#384452;color:#BFC9D3">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-7">
-                <h6>
-                    <small>This application is powered with Flask and Flat UI.</small>
-                </h6>
-            </div>
-            <div class="col-xs-5">
-                <h6>
-                    <small>Contact me at:
-                        <span class=fui-github></span> <a href="https://github.com/kigawas">GitHub</a>
-                        <span> & </span>
-                        <span class="fui-twitter"></span> <a href="https://twitter.com/kigawas">Twitter</a>
-                    </small>
-                </h6>
-            </div>
-        </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-8">
+        <h6>
+          <small>This application is powered by Flask and Flat UI.</small>
+        </h6>
+      </div>
+      <div class="col-xs-4">
+        <h6>
+          <small>Contact me at:
+            <span class=fui-github></span> <a href="https://github.com/kigawas">GitHub</a>
+            <span> & </span>
+            <span class="fui-twitter"></span> <a href="https://twitter.com/kigawas">Twitter</a>
+          </small>
+        </h6>
+      </div>
     </div>
+  </div>
 </footer>
 
 {% endblock %}
