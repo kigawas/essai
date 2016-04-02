@@ -7,7 +7,7 @@ import cPickle as pickle
 import numpy as np
 
 
-class LexicalFeature:
+class LexicalFeature(object):
     def __init__(self, essay):
         self.essay = essay
         self.sents = sent_tokenize(self.essay)
