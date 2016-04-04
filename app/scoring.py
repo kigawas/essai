@@ -43,7 +43,6 @@ class LexicalFeature(object):
         err_count = 0
         for word in filter(lambda x: x.isalnum() and x.islower(), self.words):
             if d.check(word) is False:
-                #print word
                 err_count += 1
         return err_count
 
