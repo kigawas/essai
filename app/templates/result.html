@@ -22,7 +22,7 @@
 				<li class="list-group-item">
 					{% for em in gr_e %}
 							<strong class="list-group-item-heading" >{{  "'{}' may be a grammar error.".format(sent[em.fromx:em.tox]) }} </strong>
-							<p class="list-group-item-text">{{ em.msg }} </p>
+							<p class="list-group-item-text">{{ em.msg }}</p>
 					{% else %}
 							<p class="list-group-item-text">No detected grammar errors.</p>
 					{% endfor %}
@@ -31,7 +31,7 @@
 					{% for e in sp_e %}
 						{% for wrong, correct in e.iteritems() %}
 							<strong class="list-group-item-heading" >{{  "'{}' may be a spell error.".format(wrong) }} </strong>
-							<p class="list-group-item-text">{{ "You may want to use '{}' or '{}'".format(correct[0], correct[1]) }} </p>
+							<p class="list-group-item-text">{{ "You may want to use '{}' or '{}'.".format(correct[0], correct[1]) }} </p>
 						{% endfor %}
 					{% else %}
 						<p class="list-group-item-text">No detected spell errors.</p>
