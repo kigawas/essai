@@ -53,9 +53,9 @@ class EssayScorer(object):
     t.disable_spellchecking()
 
     basedir = os.path.abspath(os.path.dirname(__file__))
-    tfidf = pickle.load(open(os.path.join(basedir, 'pickles', 'tfidf')))
-    scaler = pickle.load(open(os.path.join(basedir, 'pickles', 'scaler')))
-    clf = pickle.load(open(os.path.join(basedir, 'pickles', 'clf')))
+    tfidf = pickle.load(open(os.path.join(basedir, 'pickles', 'tfidf.pkl')))
+    scaler = pickle.load(open(os.path.join(basedir, 'pickles', 'scaler.pkl')))
+    clf = pickle.load(open(os.path.join(basedir, 'pickles', 'clf.pkl')))
     no_checking_id = ["WHITESPACE_RULE", "EN_QUOTES"]
 
     def __init__(self, essay, ret_json=False):
