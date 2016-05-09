@@ -13,4 +13,4 @@ class Essay(db.Model):
 
     def __repr__(self):
         return u'<Essay {0}>: {1}. Created at:{2}'.format(self.id, self.score,
-                                                         self.time)
+                                                          self.time)

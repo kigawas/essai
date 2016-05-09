@@ -1,10 +1,13 @@
 # encoding: utf-8
+import json
+import string
+import os
+import cPickle as pickle
+
+import numpy as np
 import enchant
 import language_check
 from nltk import sent_tokenize, word_tokenize
-import json, string, os
-import cPickle as pickle
-import numpy as np
 
 
 class LexicalFeature(object):
@@ -101,13 +104,18 @@ class EssayScorer(object):
 
 
 if __name__ == "__main__":
-    text = 'A sentence witj a error in the Hitchhiker\'s Guide tot he Galaxy'
-    text = '''   English is a internationaly                    language which becomes importantly for modern world.
-    '''
+    text1 = 'A sentence witj a error in the Hitchhiker\'s Guide tot he Galaxy'
 
-    text = "However, perhaps the discussion of man triumphing over nature makes little sense, as an economist once wrote, \"man talks of a battle with Nature, forgetting that if he won the battle, he would find himself on the losing side \"."
+    text2 = ('English is a internationaly language'
+             'which becomes importantly for modern world.')
 
-    e = EssayScorer(text)
+    text3 = ('However, perhaps the discussion of man triumphing'
+             'over nature makes little sense, as an economist once wrote,'
+             ' "man talks of a battle with Nature, '
+             'forgetting that if he won the battle, '
+             'he would find himself on the losing side ".')
+    T = text1
+    e = EssayScorer(T)
     print e.sents
     print e.words
     print e.spell_errors
