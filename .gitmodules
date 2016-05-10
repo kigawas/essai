@@ -1,0 +1,3 @@
+[submodule "app/coheoka"]
+	path = app/coheoka
+	url = https://github.com/kigawas/coheoka.git
