@@ -1,13 +1,19 @@
 # encoding: utf-8
 import json
 import string
+import sys
 import os
-import cPickle as pickle
+sys.path.append(os.path.join(
+    os.path.abspath(os.path.dirname(__file__)), 'coheoka'))
 
 import numpy as np
 import enchant
 import language_check
 from nltk import sent_tokenize, word_tokenize
+
+from coheoka.evaluator import Evaluator
+from coheoka.coherence_probability import ProbabilityVector
+from coheoka.utils import pk_load
 
 
 class LexicalFeature(object):
@@ -30,18 +36,14 @@ class LexicalFeature(object):
 
     def get_all_features(self):
         return self.type_token_ratio, self.sent_counts, \
-                self.char_counts, self.word_counts, \
-                self.long_word_counts, self.awl, \
-                self.punctuation_counts, self.err_count
+            self.char_counts, self.word_counts, \
+            self.long_word_counts, self.awl, \
+            self.punctuation_counts, self.err_count
 
     def __punc_count(self):
         return len(filter(lambda x: x in string.punctuation, self.words))
 
     def __spell_errors(self):
-        try:
-            import enchant
-        except ImportError:
-            return 0
         d = enchant.Dict('en-US')
         err_count = 0
         for word in filter(lambda x: x.isalnum() and x.islower(), self.words):
@@ -56,15 +58,17 @@ class EssayScorer(object):
     t.disable_spellchecking()
 
     basedir = os.path.abspath(os.path.dirname(__file__))
-    tfidf = pickle.load(open(os.path.join(basedir, 'pickles', 'tfidf.pkl')))
-    scaler = pickle.load(open(os.path.join(basedir, 'pickles', 'scaler.pkl')))
-    clf = pickle.load(open(os.path.join(basedir, 'pickles', 'clf.pkl')))
-    no_checking_id = ["WHITESPACE_RULE", "EN_QUOTES"]
+    tfidf = pk_load(os.path.join(basedir, 'pickles', 'tfidf.pkl'))
+    scaler = pk_load(os.path.join(basedir, 'pickles', 'scaler.pkl'))
+    clf = pk_load(os.path.join(basedir, 'pickles', 'clf.pkl'))
+    ev = pk_load(os.path.join(basedir, 'pickles', 'ev.pkl'))
+    pv = pk_load(os.path.join(basedir, 'pickles', 'pv.pkl'))
+    no_checking_id = ['WHITESPACE_RULE', 'EN_QUOTES']
 
     def __init__(self, essay, ret_json=False):
         self.ret_json = ret_json
-        self.essay = essay
-        self.sents = [s.strip() for s in sent_tokenize(essay)]
+        self.essay = '. '.join(essay.split('.'))
+        self.sents = [s.strip() for s in sent_tokenize(self.essay)]
         self.sent_words = [word_tokenize(s) for s in self.sents]
         self.words = [w for w in sum(self.sent_words, []) if w.isalnum()]
         self.score = self.__score()
@@ -100,14 +104,26 @@ class EssayScorer(object):
         return json.dumps(res) if self.ret_json else res
 
     def __coherence(self):
-        return ""
+        if len(sent_tokenize(self.essay)) == 1:
+            return 'Only one sentence. No coherence.'
+        prob_coh = EssayScorer.pv.evaluate_coherence(self.essay)
+        rank_coh = EssayScorer.ev.evaluate_coherence(self.essay)
+
+        return '{}\t{}'.format(prob_coh, rank_coh)
+
+
+def test_coherence_work():
+    corpus = ['I love you. A computer is a machine.',
+              'English is an international language. Lots of people learn it.']
+    Evaluator(corpus)
+    ProbabilityVector(corpus)
 
 
 if __name__ == "__main__":
-    text1 = 'A sentence witj a error in the Hitchhiker\'s Guide tot he Galaxy'
+    text1 = 'A sentence witj a error in the Hitchhiker\'s Guide tot he Galaxy.'
 
     text2 = ('English is a internationaly language'
-             'which becomes importantly for modern world.')
+             ' which becomes importantly for modern world.')
 
     text3 = ('However, perhaps the discussion of man triumphing'
              'over nature makes little sense, as an economist once wrote,'
@@ -121,3 +137,7 @@ if __name__ == "__main__":
     print e.spell_errors
     print e.grammar_errors
     print e.score
+
+    print EssayScorer.pv.evaluate_coherence(text1 + ' I love you.')
+    print EssayScorer.ev.evaluate_coherence(text1)
+    print EssayScorer.ev.evaluate_coherence(text2)

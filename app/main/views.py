@@ -27,7 +27,8 @@ def index():
                             coherence=json.dumps(coh))
         db.session.add(essay_tuple)
 
-        flash("Your essay is scored. You got point {} of 6.".format(score))
+        flash('Your essay is scored. You got point {} of 6.'.format(score))
+        flash('Your essay\'s coherence: {}'.format(coh))
         return render_template('result.html', text=text, es=es, zip=zip)
     return render_template('index.html', form=form)
 

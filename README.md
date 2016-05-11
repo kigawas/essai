@@ -1,5 +1,5 @@
-essai
-==============
+# essai
+
 Essay scoring system web application.
 
 ## Install
@@ -8,42 +8,60 @@ The web framework is `Flask`, and the scoring module requires `scikit-learn` and
 
 ### Install prerequisites
 
-You may need to install libraries by using `apt-get install`.
+In order to avoid redundant and meaningless building, I strongly recommend using [miniconda](http://conda.pydata.org/miniconda.html) to manage and install pre-built binaries.
+
+#### Install 3rd-party libraries
+
+For spell checking and grammar checking:
+
+Debian/Ubuntu:
 
 ```
-sudo apt-get install libpq-dev python-scipy python-sklearn python-virtualenv
-sudo apt-get install enchant default-jdk # for spell checking and grammar checking
+sudo apt-get install enchant default-jdk
 ```
 
-### Run in the global environment
+Fedora:
 
 ```
-sudo pip install -v scikit-learn==0.16.1
-sudo pip install -r requirements-global.txt
-python manage.py db upgrade
-python manage.py runserver -h $IP -p $PORT # or gunicorn manage:app if you want a faster server
+sudo dnf install enchant oracle-jdk8
 ```
 
-### Run in the virtual environment
+#### Install miniconda
 
-**Only do this if you have enough memory to build `numpy`, `scipy` and `scikit-learn` on your own.**
+Download a Python 2.7 installer for your OS at [here](http://conda.pydata.org/miniconda.html).
 
+Or download from [TUNA's mirror](https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/).
+
+#### Create virtual environment
+
+After installing miniconda, we need to set up a virtual environment:
+
+`conda create -n essai --file package-list.txt`
+
+When finishing, activate it: `source activate essai`
+
+And you may install Python packages from pip by `pip install -r requirements.txt`
+
+#### Download pickles
+If you want to use the scorer, you may need to train a scorer like what I do in [here](https://gist.github.com/kigawas/fbc016a1dce54a8b398d) and serialize it using `pickle`.
+
+If you want to use coherence evaluation, you may also need to do the same thing just like [coheoka](https://github.com/kigawas/coheoka).
+
+I have prepared some pickles in `app/pickles`.
+
+#### Test scoring
+
+Before running this web application, you should set a environment variable like: `export CORENLP_URL=http:x.y.z:port` or it will just use `localhost:9000`.
+
+Let's check if the scorer works well:
 ```
-virtualenv venv
-source venv/bin/activate
-pip install -r requirements-virtual.txt
-python manage.py db upgrade
-python manage.py runserver -h $IP -p $PORT # or gunicorn manage:app if you want a faster server
+cd app
+python scoring.py
 ```
 
-Notice that installing `numpy` and `scipy` in virtual environments is not that easy.
+#### Run a server
 
-If there are some errors like `numpy.distutils.system_info.NotFoundError: no lapack/blas resources found`, try this:
-```
-sudo apt-get install python-scipy
-sudo apt-get build-dep python-scipy
-pip install scipy
-```
+Just `python manage.py runserver [-h $IP -p $PORT]`, if you want a faster server, try `gunicorn manage:app`.
 
 ## Features
 
