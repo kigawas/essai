@@ -86,7 +86,7 @@
 
 <p>If you want to use coherence evaluation, you may also need to do the same thing just like <a href="https://github.com/kigawas/coheoka">coheoka</a>.</p>
 
-<p>I have prepared some pickles in <code>app/pickles</code> or download at <a href="https://mega.nz/#F!QZ0GhD5Z!geSL2jDD9tQF_Sma1CYnvQ">mega</a>.</p>
+<p>I have prepared some pickles in <code>app/pickles</code>, but because pickles related to coherence evaluation is too large to store on GitHub, so you may download them at <a href="https://mega.nz/#F!QZ0GhD5Z!geSL2jDD9tQF_Sma1CYnvQ">mega</a> or <a href="https://preview.c9users.io/babykiss4ever/python-flask/Flask/essai/app/pickles/">cloud9</a>.</p>
 
 <h4>
 <a id="test-scoring" class="anchor" href="#test-scoring" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Test scoring</h4>
@@ -97,13 +97,14 @@
 git submodule update
 </code></pre>
 
-<p>Before running this web application, you should set a environment variable like: <code>export CORENLP_URL=http:x.y.z:port</code> or it will just use <code>localhost:9000</code>.</p>
+<p>Before running this web application, you should set a environment variable like: <code>export CORENLP_URL=http://x.y.z:port</code>(e.g. <a href="http://corenlp.run">http://corenlp.run</a>, this is Stanford's official CoreNLP demo) or it will just use <code>localhost:9000</code>.</p>
 
 <p>Let's check if the scorer works well:</p>
 
-<pre><code>cd app
-python scoring.py
+<pre><code>python app/scoring.py
 </code></pre>
+
+<p>If any error occurs, check the instruction before. </p>
 
 <h4>
 <a id="run-a-server" class="anchor" href="#run-a-server" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Run a server</h4>
