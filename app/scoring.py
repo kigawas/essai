@@ -115,8 +115,13 @@ class EssayScorer(object):
 def test_coherence_work():
     corpus = ['I love you. A computer is a machine.',
               'English is an international language. Lots of people learn it.']
-    Evaluator(corpus)
-    ProbabilityVector(corpus)
+    corpus = ['I love you. A computer is a machine.',
+              'English is an international language. Lots of people learn it.']
+    ev = Evaluator(corpus).make_data_and_clf().fit()
+    pv = ProbabilityVector(corpus).make_probs()
+    print ev.evaluate_coherence('I love you.')
+    print pv.evaluate_coherence(
+        'Time flies by. This is what we face. I love you.')
 
 
 if __name__ == "__main__":
