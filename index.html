@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Essai by kigawas</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Essai</h1>
+          <h2>Essay scoring system web application.</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/kigawas/essai/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/kigawas/essai/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/kigawas/essai" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a id="essai" class="anchor" href="#essai" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>essai</h1>
+
+<p>Essay scoring system web application.</p>
+
+<h2>
+<a id="install" class="anchor" href="#install" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install</h2>
+
+<p>The web framework is <code>Flask</code>, and the scoring module requires <code>scikit-learn</code> and <code>nltk</code> (and don't forget to download its <code>punkt</code> tokenizer).</p>
+
+<h3>
+<a id="install-prerequisites" class="anchor" href="#install-prerequisites" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install prerequisites</h3>
+
+<p>In order to avoid redundant and meaningless building, I strongly recommend using <a href="http://conda.pydata.org/miniconda.html">miniconda</a> to manage and install pre-built binaries.</p>
+
+<h4>
+<a id="install-3rd-party-libraries" class="anchor" href="#install-3rd-party-libraries" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install 3rd-party libraries</h4>
+
+<p>For spell checking and grammar checking:</p>
+
+<p>Debian/Ubuntu:</p>
+
+<pre><code>sudo apt-get install enchant default-jdk
+</code></pre>
+
+<p>Fedora:</p>
+
+<pre><code>sudo dnf install enchant oracle-jdk8
+</code></pre>
+
+<h4>
+<a id="install-miniconda" class="anchor" href="#install-miniconda" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install miniconda</h4>
+
+<p>Download a Python 2.7 installer for your OS at <a href="http://conda.pydata.org/miniconda.html">here</a>.</p>
+
+<p>Or download from <a href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/">TUNA's mirror</a>.</p>
+
+<h4>
+<a id="create-virtual-environment" class="anchor" href="#create-virtual-environment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create virtual environment</h4>
+
+<p>After installing miniconda, we need to set up a virtual environment:</p>
+
+<p><code>conda create -n essai --file package-list.txt</code></p>
+
+<p>When finishing, activate it: <code>source activate essai</code>.</p>
+
+<p>And you may install Python packages from pip by <code>pip install -r requirements.txt</code>.</p>
+
+<h4>
+<a id="get-pickles" class="anchor" href="#get-pickles" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get pickles</h4>
+
+<p>If you want to use the scorer, you may need to train a scorer like what I do at <a href="https://gist.github.com/kigawas/fbc016a1dce54a8b398d">here</a> and serialize it using <code>pickle</code>.</p>
+
+<p>If you want to use coherence evaluation, you may also need to do the same thing just like <a href="https://github.com/kigawas/coheoka">coheoka</a>.</p>
+
+<p>I have prepared some pickles in <code>app/pickles</code> or download at <a href="https://mega.nz/#F!QZ0GhD5Z!geSL2jDD9tQF_Sma1CYnvQ">mega</a>.</p>
+
+<h4>
+<a id="test-scoring" class="anchor" href="#test-scoring" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Test scoring</h4>
+
+<p>At first, make sure the submodule is ready:</p>
+
+<pre><code>git submodule init
+git submodule update
+</code></pre>
+
+<p>Before running this web application, you should set a environment variable like: <code>export CORENLP_URL=http:x.y.z:port</code> or it will just use <code>localhost:9000</code>.</p>
+
+<p>Let's check if the scorer works well:</p>
+
+<pre><code>cd app
+python scoring.py
+</code></pre>
+
+<h4>
+<a id="run-a-server" class="anchor" href="#run-a-server" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Run a server</h4>
+
+<p>Just <code>python manage.py runserver [-h $IP -p $PORT]</code>, if you want a faster server, try <code>gunicorn manage:app</code>.</p>
+
+<h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h2>
+
+<ul>
+<li>A holistic score from 1 to 6 (greater means better)</li>
+<li>Spell checking and grammar checking</li>
+<li>Coherence feedbacks</li>
+</ul>
+        </section>
+
+        <footer>
+          Essai is maintained by <a href="https://github.com/kigawas">kigawas</a><br>
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
