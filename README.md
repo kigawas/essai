@@ -38,18 +38,23 @@ After installing miniconda, we need to set up a virtual environment:
 
 `conda create -n essai --file package-list.txt`
 
-When finishing, activate it: `source activate essai`
+When finishing, activate it: `source activate essai`.
 
-And you may install Python packages from pip by `pip install -r requirements.txt`
+And you may install Python packages from pip by `pip install -r requirements.txt`.
 
-#### Download pickles
-If you want to use the scorer, you may need to train a scorer like what I do in [here](https://gist.github.com/kigawas/fbc016a1dce54a8b398d) and serialize it using `pickle`.
+#### Get pickles
+If you want to use the scorer, you may need to train a scorer like what I do at [here](https://gist.github.com/kigawas/fbc016a1dce54a8b398d) and serialize it using `pickle`.
 
 If you want to use coherence evaluation, you may also need to do the same thing just like [coheoka](https://github.com/kigawas/coheoka).
 
-I have prepared some pickles in `app/pickles`.
+I have prepared some pickles in `app/pickles` or download at [mega](https://mega.nz/#F!QZ0GhD5Z!geSL2jDD9tQF_Sma1CYnvQ).
 
 #### Test scoring
+At first, make sure the submodule is ready:
+```
+git submodule init
+git submodule update
+```
 
 Before running this web application, you should set a environment variable like: `export CORENLP_URL=http:x.y.z:port` or it will just use `localhost:9000`.
 
