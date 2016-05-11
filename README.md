@@ -47,7 +47,7 @@ If you want to use the scorer, you may need to train a scorer like what I do at 
 
 If you want to use coherence evaluation, you may also need to do the same thing just like [coheoka](https://github.com/kigawas/coheoka).
 
-I have prepared some pickles in `app/pickles` or download at [mega](https://mega.nz/#F!QZ0GhD5Z!geSL2jDD9tQF_Sma1CYnvQ).
+I have prepared some pickles in `app/pickles`, but because pickles related to coherence evaluation is too large to store on GitHub, so you may download them at [mega](https://mega.nz/#F!QZ0GhD5Z!geSL2jDD9tQF_Sma1CYnvQ) or [cloud9](https://preview.c9users.io/babykiss4ever/python-flask/Flask/essai/app/pickles/).
 
 #### Test scoring
 At first, make sure the submodule is ready:
@@ -56,13 +56,13 @@ git submodule init
 git submodule update
 ```
 
-Before running this web application, you should set a environment variable like: `export CORENLP_URL=http:x.y.z:port` or it will just use `localhost:9000`.
+Before running this web application, you should set a environment variable like: `export CORENLP_URL=http://x.y.z:port`(e.g. http://corenlp.run, this is Stanford's official CoreNLP demo) or it will just use `localhost:9000`.
 
 Let's check if the scorer works well:
 ```
-cd app
-python scoring.py
+python app/scoring.py
 ```
+If any error occurs, check the instruction before. 
 
 #### Run a server
 
