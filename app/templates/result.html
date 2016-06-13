@@ -2,9 +2,31 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block page_content %}
-    <div class="page-header">
-    	<h2>Result</h2>
+
+<div class="row">
+  <div class="col-xs-3">
+    <div class="input-group">
+    	<input type="text" class="form-control" placeholder="{{ es.score }}">
+      <span class="input-group-btn">
+        <button class="btn btn-success" type="button">OK</button>
+      </span>
     </div>
+  </div>
+  <div class="col-xs-3">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="{{ es.coherence }}">
+      <span class="input-group-btn">
+        <button class="btn btn-success" type="button">OK</button>
+      </span>
+    </div>
+  </div>
+</div>
+
+<div class="page-header">
+	<h2>Result</h2>
+</div>
+
+
 
 <div class="container-fluid">
 	{% for sent, sp_e, gr_e in zip(es.sents, es.spell_errors.itervalues(), es.grammar_errors.itervalues()) %}

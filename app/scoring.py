@@ -108,15 +108,19 @@ class EssayScorer(object):
             return 'Only one sentence. No coherence.'
         prob_coh = EssayScorer.pv.evaluate_coherence(self.essay)
         rank_coh = EssayScorer.ev.evaluate_coherence(self.essay)
+        if rank_coh < 0:
+            return 'Poor'
+        elif 0 <= rank_coh < 0.2:
+            return 'Fair'
+        else:
+            return 'Good'
 
-        return '{}\t{}'.format(prob_coh, rank_coh)
 
 
 def test_coherence_work():
     corpus = ['I love you. A computer is a machine.',
               'English is an international language. Lots of people learn it.']
-    corpus = ['I love you. A computer is a machine.',
-              'English is an international language. Lots of people learn it.']
+    #corpus = ['I love you. A computer is a machine.', 'English is an international language. Lots of people learn it.']
     ev = Evaluator(corpus).make_data_and_clf().fit()
     pv = ProbabilityVector(corpus).make_probs()
     print ev.evaluate_coherence('I love you.')
